@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección Final de Candidatos - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Selección Final de Candidatos</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <form action="{% url 'seleccion_final' %}" method="post">
+                {% csrf_token %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Solicitud</th>
+                            <th>Nombre Candidato</th>
+                            <th>Apellido Candidato</th>
+                            <th>Departamento</th>
+                            <th>Cargo</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidato in candidatos %}
+                        <tr>
+                            <td>{{ candidato.id_solicitud }}</td>
+                            <td>{{ candidato.candidato.nombre }}</td>
+                            <td>{{ candidato.candidato.apellido }}</td>
+                            <td>{{ candidato.candidato.departamento.Nombre_Departamento }}</td>
+                            <td>{{ candidato.candidato.cargo.Nombre }}</td>
+                            <td><input type="checkbox" name="ids_solicitudes" value="{{ candidato.id_solicitud }}"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" class="btn">Seleccionar Candidatos</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+</body>
+</html>
