@@ -16,9 +16,10 @@ def login(request):
             resultado = cursor.fetchone()
 
         query_verificar_estado = """
-            SELECT id_cese,id_empleado 
-            FROM cese 
-            WHERE id_empleado = %s
+            SELECT id_cese
+            FROM empleado AS E
+            INNER JOIN cese AS C ON C.id_empleado = E.id_empleado
+            WHERE C.id_empleado = %s AND E.Estado_laboral='cesado'
         """
         with connection.cursor() as cursor:
             cursor.execute(query_verificar_estado, [codigo_empleado])
@@ -119,16 +120,24 @@ def cese1(request):
                     query_insertar_cese = """
                         INSERT INTO cese (id_cese, tipo_cese, motivo_cese, fecha_inicio_cese, id_supervisor, id_empleado) 
                         VALUES (%s, %s, %s, %s, %s, %s);
+
+                        UPDATE empleado
+                        SET Estado_laboral = 'cesado'
+                        WHERE id_empleado = %s;
                     """
                     with connection.cursor() as cursor:
-                        cursor.execute(query_insertar_cese, [id_cese, tipo_cese, motivo_cese, fecha_cese, id_supervisor, id_empleado])
+                        cursor.execute(query_insertar_cese, [id_cese, tipo_cese, motivo_cese, fecha_cese, id_supervisor, id_empleado, id_empleado])
                 else:
                     query_insertar_cese = """
                         INSERT INTO cese (id_cese, tipo_cese, motivo_cese, fecha_inicio_cese, id_supervisor, id_empleado) 
                         VALUES (%s, %s, Null, %s, %s, %s);
+
+                        UPDATE empleado
+                        SET Estado_laboral = 'cesado'
+                        WHERE id_empleado = %s;
                     """
                     with connection.cursor() as cursor:
-                        cursor.execute(query_insertar_cese, [id_cese, tipo_cese, fecha_cese, id_supervisor, id_empleado])
+                        cursor.execute(query_insertar_cese, [id_cese, tipo_cese, fecha_cese, id_supervisor, id_empleado, id_empleado])
 
                 if cant_deuda:
                     query_insertar_deuda = """
@@ -144,6 +153,14 @@ def cese1(request):
                         cursor.execute(query_insertar_deuda, [cant_deuda, id_cese])  
             
             else:
+                
+                query_correccion = """
+                    UPDATE empleado
+                    SET Estado_laboral = 'activo'
+                    WHERE id_empleado = (SELECT id_empleado FROM cese WHERE id_cese=%s);
+                """
+                with connection.cursor() as cursor:
+                    cursor.execute(query_correccion,id_cese)
 
                 if motivo_cese:
                     query_insertar_cese = """
@@ -154,10 +171,14 @@ def cese1(request):
                             fecha_inicio_cese = %s, 
                             id_supervisor = %s, 
                             id_empleado = %s
-                        WHERE id_cese = %s
+                        WHERE id_cese = %s;
+
+                        UPDATE empleado
+                        SET Estado_laboral = 'cesado'
+                        WHERE id_empleado = %s;
                     """
                     with connection.cursor() as cursor:
-                        cursor.execute(query_insertar_cese, [tipo_cese, motivo_cese, fecha_cese, id_supervisor, id_empleado, id_cese])
+                        cursor.execute(query_insertar_cese, [tipo_cese, motivo_cese, fecha_cese, id_supervisor, id_empleado, id_cese, id_empleado])
                 else:
                     query_insertar_cese = """
                         UPDATE cese 
@@ -167,10 +188,14 @@ def cese1(request):
                             fecha_inicio_cese = %s, 
                             id_supervisor = %s, 
                             id_empleado = %s
-                        WHERE id_cese = %s
+                        WHERE id_cese = %s;
+
+                        UPDATE empleado
+                        SET Estado_laboral = 'cesado'
+                        WHERE id_empleado = %s;
                     """
                     with connection.cursor() as cursor:
-                        cursor.execute(query_insertar_cese, [tipo_cese, fecha_cese, id_supervisor, id_empleado, id_cese])
+                        cursor.execute(query_insertar_cese, [tipo_cese, fecha_cese, id_supervisor, id_empleado, id_cese, id_empleado])
 
                 if cant_deuda:
                     query_insertar_deuda = """
@@ -188,25 +213,8 @@ def cese1(request):
 
 def cese2(request, id_cese):
     query_revisar_empleado = """
-        SELECT
-            E.id_empleado,
-            E.nombre_empleado ||' '|| 	E.apellido_empleado as Nombre,
-            D.nombre_departamento,
-            CA.nombre,
-            C.fecha_inicio_cese,
-            CASE
-                WHEN C.tipo_cese = 'D' THEN 'Despido'
-                WHEN C.tipo_cese = 'R' THEN 'Renuncia'
-                WHEN C.tipo_cese = 'C' THEN 'Término de contrato'
-                WHEN C.tipo_cese = 'J' THEN 'Jubilación'
-                ELSE 'No especificado'
-            END AS Tipo_Cese,
-            C.motivo_cese,
-            C.id_supervisor
-        FROM cese AS C
-        INNER JOIN empleado AS E ON C.id_empleado = E.id_empleado
-        INNER JOIN departamento AS D ON E.id_departamento = D.id_departamento
-        INNER JOIN cargo AS CA ON E.id_cargo = CA.id_cargo
+        SELECT id_empleado, nombre, departamento, cargo, fecha_cese, tipo_cese, motivo, id_supervisor 
+        FROM detalles_cese
         WHERE C.id_cese = %s
     """
     with connection.cursor() as cursor:
