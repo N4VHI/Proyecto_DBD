@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Perfil - Sistema de Reclutamiento y Selección</title>
+    <title>Crear Vacante - Sistema de Reclutamiento y Selección</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Crear Perfil</h1>
+            <h1>Crear Vacante</h1>
         </div>
     </header>
     <main>
@@ -22,6 +22,42 @@
             {% endif %}
             <form method="post" class="form">
                 {% csrf_token %}
+                <h2>Detalles de la Vacante</h2>
+                <label for="id_departamento">Departamento:</label>
+                <select name="id_departamento" id="id_departamento" required>
+                    {% for departamento in departamentos %}
+                        <option value="{{ departamento.0 }}">{{ departamento.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="id_cargo">Cargo:</label>
+                <select name="id_cargo" id="id_cargo" required>
+                    {% for cargo in cargos %}
+                        <option value="{{ cargo.0 }}">{{ cargo.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="ubicacion">Ubicación:</label>
+                <select name="ubicacion" id="ubicacion" required>
+                    {% for ubicacion in ubicaciones %}
+                        <option value="{{ ubicacion.0 }}">{{ ubicacion.0 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="beneficio">Beneficio:</label>
+                <input type="text" name="beneficio" id="beneficio" required>
+
+                <label for="salario">Salario:</label>
+                <input type="number" name="salario" id="salario" required>
+
+                <label for="horario">Horario:</label>
+                <select name="horario" id="horario" required>
+                    {% for horario in horarios %}
+                        <option value="{{ horario }}">{{ horario }}</option>
+                    {% endfor %}
+                </select>
+
+                <h2>Perfil Requerido</h2>
                 <label for="anos_exp">Años de Experiencia:</label>
                 <input type="number" name="anos_exp" id="anos_exp" required>
 
@@ -41,7 +77,7 @@
                 </div>
                 <button type="button" id="add-titulo-btn">Agregar Título</button>
 
-                <button type="submit" class="btn">Crear Perfil</button>
+                <button type="submit" class="btn">Crear Vacante</button>
             </form>
         </div>
     </main>

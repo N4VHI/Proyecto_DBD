@@ -26,22 +26,24 @@
                             <th>Departamento</th>
                             <th>Cargo</th>
                             <th>Seleccionar</th>
+                            <th>No Seleccionar</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for candidato in candidatos %}
                         <tr>
-                            <td>{{ candidato.id_solicitud }}</td>
-                            <td>{{ candidato.candidato.nombre }}</td>
-                            <td>{{ candidato.candidato.apellido }}</td>
-                            <td>{{ candidato.candidato.departamento.Nombre_Departamento }}</td>
-                            <td>{{ candidato.candidato.cargo.Nombre }}</td>
-                            <td><input type="checkbox" name="ids_solicitudes" value="{{ candidato.id_solicitud }}"></td>
+                            <td>{{ candidato.0 }}</td>
+                            <td>{{ candidato.2 }}</td>
+                            <td>{{ candidato.3 }}</td>
+                            <td>{{ candidato.4 }}</td>
+                            <td>{{ candidato.5 }}</td>
+                            <td><input type="checkbox" name="seleccionados" value="{{ candidato.0 }}"></td>
+                            <td><input type="checkbox" name="no_seleccionados" value="{{ candidato.0 }}"></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <button type="submit" class="btn">Seleccionar Candidatos</button>
+                <button type="submit" class="btn">Actualizar Selección</button>
             </form>
         </div>
     </main>

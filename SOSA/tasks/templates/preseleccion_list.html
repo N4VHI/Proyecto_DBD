@@ -15,30 +15,35 @@
     </header>
     <main>
         <div class="container">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID Solicitud</th>
-                        <th>Nombre Candidato</th>
-                        <th>Apellido Candidato</th>
-                        <th>Departamento</th>
-                        <th>Cargo</th>
-                        <th>Estado Solicitud</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for candidato in candidatos %}
-                    <tr>
-                        <td>{{ candidato.id_solicitud }}</td>
-                        <td>{{ candidato.candidato.nombre }}</td>
-                        <td>{{ candidato.candidato.apellido }}</td>
-                        <td>{{ candidato.candidato.departamento.Nombre_Departamento }}</td>
-                        <td>{{ candidato.candidato.cargo.Nombre }}</td>
-                        <td>{{ candidato.est_solicitud }}</td>
-                    </tr>
+            <form method="post" action="{% url 'preseleccion_candidatos' %}">
+                {% csrf_token %}
+                <input type="hidden" name="id_vacante" value="{{ vacante_id }}">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Solicitud</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Horario Disponible</th>
+                            <th>Estado Solicitud</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidato in candidatos %}
+                        <tr>
+                            <td>{{ candidato.0 }}</td>
+                            <td>{{ candidato.2 }}</td>
+                            <td>{{ candidato.3 }}</td>
+                            <td>{{ candidato.4 }}</td>
+                            <td>{{ candidato.5 }}</td>
+                            <td><input type="checkbox" name="seleccionados" value="{{ candidato.0 }}"></td>
+                        </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+                <button type="submit" name="preseleccionar" class="btn">Preseleccionar</button>
+            </form>
         </div>
     </main>
     <footer>
@@ -48,3 +53,5 @@
     </footer>
 </body>
 </html>
+
+
