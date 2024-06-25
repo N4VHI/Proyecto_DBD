@@ -1,0 +1,51 @@
+"""
+URL configuration for pantalla project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from capacitacion import views
+from django.urls import include
+
+import desempeño  
+import cese
+import asistencia
+import reclutamiento
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('registro_empleado/',views.mostrarventana),
+    path('registrar_empleado/',views.registrar_empleado),
+    path('menucapacitacion/',views.tablacargo),
+    path('registrar_empleado/registro_sesion/',views.registro_sesion_ventana),
+    path('registrar_sesion/',views.registrar_sesion),
+    path('matricula_empleado/',views.matricula_empleado_ventana),
+    path('matricular_empleado/',views.matricular_empleado),
+    path('lista_matricula/',views.mostrar_matricula_ventana),
+    path('listar_matricula/<codigo_programa>/',views.mostrar_matricula_ventana),
+    path('muestra_capacitaciones/',views.muestra_capacitaciones),
+    path('ingresarIdPrograma/',views.ingresarIdPrograma),
+    path('mostrarMatricula/<id_programa>',views.mostrarMatricula),
+    path('actualizar_asistencia/',views.ventana_asistencia),
+    path('ingresarIdSesion/',views.ingresarIdSesion),
+    path('mostrarAsistencia/<id_sesion>/',views.mostrarAsistencia),
+    path('',include('desempeño.urls')),
+    path('',include('cese.urls')),
+    path('',include('asistencia.urls')),
+    path('',include('reclutamiento.urls')),
+
+
+
+]
