@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Permiso</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>¿Quieres hacer una petición de permiso?</h1>
+    </header>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="tipo">Tipo de Permiso:</label>
+        <select id="tipo" name="tipo">
+            <option value="Mudanza">Mudanza</option>
+            <option value="Matrimonio">Matrimonio</option>
+            <option value="Nacimiento de un familiar">Nacimiento de un familiar</option>
+            <option value="Fallecimiento de un familiar">Fallecimiento de un familiar</option>
+            <option value="Accidente de un familiar">Accidente de un familiar</option>
+            <option value="Enfermedad grave de un familiar">Enfermedad grave de un familiar</option>
+            <option value="Deberes inexcusables">Deberes inexcusables</option>
+            <option value="Exámenes prenatales">Exámenes prenatales</option>
+            <option value="Funciones sindicales">Funciones sindicales</option>
+            <option value="Hijos prematuros">Hijos prematuros</option>
+            <option value="Formación">Formación</option>
+            <option value="Despido objetivo">Despido objetivo</option>
+        </select>
+        <br><br>
+
+        <label for="motivo">Motivo:</label>
+        <textarea id="motivo" name="motivo" rows="2"></textarea>
+        <br><br>
+
+        <label for="duracion">Duración:</label>
+        <input type="text" id="duracion" name="duracion">
+        <br><br>
+
+        <label for="id_empleado">ID Empleado:</label>
+        <input type="number" id="id_empleado" name="id_empleado">
+        <br><br>
+
+        <label for="id_supervisor">ID Supervisor:</label>
+        <input type="number" id="id_supervisor" name="id_supervisor">
+        <br><br>
+
+        <button type="submit">Confirmar</button>
+    </form>
+    <a href="/">Volver al Menú Principal</a>
+</body>
+
+</html>
