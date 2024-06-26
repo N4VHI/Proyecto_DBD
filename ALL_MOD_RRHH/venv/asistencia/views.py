@@ -103,7 +103,7 @@ def aprobar_rechazar_solicitudes(request):
             return render(request, 'aprobar_rechazar_solicitudes.html')
         
 def MenuPrincipal(request):
-    return render(request, 'Menu.html')
+    return render(request, 'Menu2.html')
 
 def generar_reporte_asistencia(request):
     if request.method == 'POST':
