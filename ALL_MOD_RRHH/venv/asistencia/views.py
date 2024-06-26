@@ -10,7 +10,7 @@ def MostrarFormulario(request):
         with connection.cursor() as cursor:
             cursor.execute("SELECT ID_Departamento, Nombre_Departamento FROM Departamento")
             departamentos = cursor.fetchall()
-        return render(request, 'Index.html', {'departamentos': departamentos})
+        return render(request, 'Index2.html', {'departamentos': departamentos})
     else:
         return redirect('/MenuPrincipal')
 
