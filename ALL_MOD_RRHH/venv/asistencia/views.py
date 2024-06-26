@@ -34,7 +34,7 @@ def Insert(request):
         with connection.cursor() as cursor:
             cursor.execute(query, [Estado, Observacion, Fecha, Hora_entrada, Hora_salida, ID_Empleado])
         messages.success(request, 'Asistencia insertada')
-        return redirect('/MenuPrincipal/')
+        return redirect('/MenuPrincipal')
     return render(request, 'Index.html')
 
 def solicitar_licencia(request):
@@ -55,7 +55,7 @@ def solicitar_licencia(request):
             with connection.cursor() as cursor:
                 cursor.execute(query, [tipo, estado, fecha_inicio, fecha_fin, id_empleado, id_supervisor])
             messages.success(request, 'La solicitud de licencia ha sido enviada correctamente.')
-            return redirect('/')
+            return redirect('/MenuPrincipal')
         else:
             messages.error(request, 'Todos los campos son requeridos.')
     return render(request, 'solicitar_licencia.html')

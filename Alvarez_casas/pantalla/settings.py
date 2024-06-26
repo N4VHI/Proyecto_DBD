@@ -77,20 +77,12 @@ WSGI_APPLICATION = 'pantalla.wsgi.application'
 
 DATABASES = {
     'default': {
-
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'Dbd_RRHH_5',
-
+        'NAME': 'RRHH',
         'USER': 'postgres',
-
-        'PASSWORD': '010969',
-
+        'PASSWORD': 'anayedi25',
         'HOST': 'localhost',
-
-        'PORT': 5432,
-
-
+        'PORT': '5432',
     }
 
 }

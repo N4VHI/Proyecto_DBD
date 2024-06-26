@@ -64,19 +64,21 @@
 
 <body>
     <header>
-        <h1>Menú Principal</h1>
+        <h1>Menú Principal de Registro de Asistencias y Solicitudes</h1>
     </header>
 
     <main class="container">
         <section>
-            <h2>Seleccione una Opción</h2>
+            <header>
+                <h2>Seleccione la operación que desea realizar</h2>
+            </header>
             <ul class="menu-list">
-                <li><a href="/?show_form=true">Registrar asistencia</a></li>
-                <li><a href="/GenerarReporteAsistencia">Generar reporte de asistencia</a></li>
-                <li><a href="/SolicitarLicencia">Solicitar licencia</a></li>
-                <li><a href="/SolicitarPermiso">Solicitar permiso</a></li>
-                <li><a href="/AceptarRechazarSolicitudes">Aceptar/Rechazar licencias</a></li>
-                <li><a href="/aprobar_rechazar_permisos">Aceptar/Rechazar permisos</a></li>
+                <li><a href="/InsertarAsistencia/">Registrar asistencia</a></li>
+                <li><a href="/GenerarReporteAsistencia/">Generar reporte de asistencia</a></li>
+                <li><a href="/SolicitarLicencia/">Solicitar licencia</a></li>
+                <li><a href="/SolicitarPermiso/">Solicitar permiso</a></li>
+                <li><a href="/AceptarRechazarSolicitudes/">Aceptar/Rechazar licencias</a></li>
+                <li><a href="/aprobar_rechazar_permisos/">Aceptar/Rechazar permisos</a></li>
             </ul>
             {% if messages %}
             <div class="messages">

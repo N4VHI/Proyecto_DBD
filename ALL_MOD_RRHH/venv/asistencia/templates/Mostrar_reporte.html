@@ -25,51 +25,58 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
             text-align: center;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .btn {
-            display: inline-block;
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-container a,
+        .btn-container input[type="submit"] {
+            width: 48%;
             background-color: #4CAF50;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
-        .btn:hover {
+        .btn-container a:hover,
+        .btn-container input[type="submit"]:hover {
             background-color: #45a049;
         }
     </style>
 </head>
+
 
 
 <body>
@@ -119,6 +126,9 @@
             {% else %}
             <p>No se han registrado asistencias entre esas fechas.</p>
             {% endif %}
+            <div class="form-group btn-container">
+                <a href="/MenuPrincipal" class="btn-back">Volver al Menú Principal</a>
+            </div>
 </body>
 
 </html>
