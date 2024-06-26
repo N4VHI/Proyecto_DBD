@@ -36,7 +36,7 @@ def Insert(request):
         with connection.cursor() as cursor:
             cursor.execute(query, [Estado, Observacion, Fecha, Hora_entrada, Hora_salida, ID_Empleado])
         messages.success(request, 'Asistencia insertada')
-        return redirect('/MenuPrincipal')
+        return redirect('/MenuPrincipal/')
     return render(request, 'Index.html')
 
 def solicitar_licencia(request):
