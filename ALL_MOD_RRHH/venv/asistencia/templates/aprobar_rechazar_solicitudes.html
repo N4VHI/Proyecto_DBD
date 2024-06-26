@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aceptar/Rechazar Licencias</title>
+    <title>Aprobar/Rechazar Licencias</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
@@ -52,7 +52,15 @@
             background-color: #f2f2f2;
         }
 
-        .btn {
+        .btn-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-container button,
+        .btn-container a {
             display: inline-block;
             background-color: #4CAF50;
             color: white;
@@ -65,8 +73,13 @@
             transition: background-color 0.3s;
         }
 
-        .btn:hover {
+        .btn-container button:hover,
+        .btn-container a:hover {
             background-color: #45a049;
+        }
+
+        .btn-container a {
+            line-height: 36px;
         }
     </style>
 </head>
@@ -116,8 +129,11 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <button class="btn" type="submit" name="accion" value="aprobar">Aprobar</button>
-            <button class="btn" type="submit" name="accion" value="rechazar">Rechazar</button>
+            <div class="btn-container">
+                <button type="submit" name="accion" value="aprobar">Aprobar</button>
+                <button type="submit" name="accion" value="rechazar">Rechazar</button>
+                <a href="/MenuPrincipal">Volver al Menú Principal</a>
+            </div>
         </form>
         {% else %}
         <p>No hay licencias pendientes.</p>

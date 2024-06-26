@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aceptar/Rechazar Permisos</title>
+    <title>Aprobar/Rechazar Permisos</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
@@ -25,14 +25,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            text-align: center;
         }
 
         table {
@@ -52,21 +46,44 @@
             background-color: #f2f2f2;
         }
 
-        .btn {
-            display: inline-block;
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-container a,
+        .btn-container button {
             background-color: #4CAF50;
             color: white;
-            padding: 8px 16px;
+            padding: 10px 50px;
             text-align: center;
             text-decoration: none;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
-        .btn:hover {
+        .btn-container a:hover,
+        .btn-container button:hover {
             background-color: #45a049;
+        }
+
+        .btn-container button {
+            margin-right: 10px;
+        }
+
+        .btn-container a {
+            margin-right: 10px;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 4px solid #4CAF50;
         }
     </style>
 </head>
@@ -114,8 +131,11 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <button class="btn" type="submit" name="accion" value="aprobar">Aprobar</button>
-            <button class="btn" type="submit" name="accion" value="rechazar">Rechazar</button>
+            <div class="btn-container">
+                <button type="submit" name="accion" value="aprobar">Aprobar</button>
+                <button type="submit" name="accion" value="rechazar">Rechazar</button>
+                <a href="/">Volver al Menú Principal</a>
+            </div>
         </form>
         {% else %}
         <p>No hay permisos pendientes.</p>
