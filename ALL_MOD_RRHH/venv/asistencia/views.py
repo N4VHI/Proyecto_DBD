@@ -1,9 +1,7 @@
-
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db import connection
-from .forms import LicenciaPermisoForm
 from django.utils.dateparse import parse_date
 from django.urls import reverse
 
@@ -41,30 +39,26 @@ def Insert(request):
 
 def solicitar_licencia(request):
     if request.method == 'POST':
-        form = LicenciaPermisoForm(request.POST, request.FILES)
-        if form.is_valid():
-            id_empleado = form.cleaned_data['ID_Empleado']
-            motivo = form.cleaned_data['Motivo']
-            fecha_inicio = form.cleaned_data['Fecha_inicio']
-            fecha_fin = form.cleaned_data['Fecha_fin']
-            estado = 'Pendiente'
-            tipo = 'Licencia'
-            id_supervisor = 1  # Este valor deberá ser dinámico según tu lógica
+        id_empleado = request.POST.get('ID_Empleado')
+        motivo = request.POST.get('Motivo')
+        fecha_inicio = request.POST.get('Fecha_inicio')
+        fecha_fin = request.POST.get('Fecha_fin')
+        id_supervisor = request.POST.get('ID_Supervisor')
+        tipo = request.POST.get('Tipo')
+        estado = 'Pendiente'
 
+        if id_empleado and motivo and fecha_inicio and fecha_fin and id_supervisor and tipo:
             query = """
             INSERT INTO Licencia (ID_Licencia, Tipo, Estado, Fecha_inicio, Fecha_fin, ID_Empleado, ID_Supervisor)
             VALUES ((SELECT COALESCE(MAX(ID_Licencia), 0) + 1 FROM Licencia), %s, %s, %s, %s, %s, %s)
             """
             with connection.cursor() as cursor:
                 cursor.execute(query, [tipo, estado, fecha_inicio, fecha_fin, id_empleado, id_supervisor])
-
             messages.success(request, 'La solicitud de licencia ha sido enviada correctamente.')
             return redirect('/')
         else:
-            messages.error(request, 'Hubo un error en la solicitud.')
-    else:
-        form = LicenciaPermisoForm()
-    return render(request, 'solicitar_licencia.html', {'form': form})
+            messages.error(request, 'Todos los campos son requeridos.')
+    return render(request, 'solicitar_licencia.html')
 
 def aprobar_rechazar_solicitudes(request):
     if request.method == 'POST':
@@ -166,34 +160,6 @@ def solicitar_permiso(request):
         messages.success(request, 'Solicitud de permiso enviada correctamente.')
         return redirect('MenuPrincipal')
     return render(request, 'solicitar_permiso.html')
-
-def solicitar_licencia(request):
-    if request.method == 'POST':
-        form = LicenciaPermisoForm(request.POST, request.FILES)
-        if form.is_valid():
-            id_empleado = form.cleaned_data['ID_Empleado']
-            motivo = form.cleaned_data['Motivo']
-            fecha_inicio = form.cleaned_data['Fecha_inicio']
-            fecha_fin = form.cleaned_data['Fecha_fin']
-            id_supervisor = form.cleaned_data['ID_Supervisor']
-            tipo = form.cleaned_data['Tipo']
-            estado = 'Pendiente'
-            
-
-            query = """
-            INSERT INTO Licencia (ID_Licencia, Tipo, Estado, Fecha_inicio, Fecha_fin, ID_Empleado, ID_Supervisor)
-            VALUES ((SELECT COALESCE(MAX(ID_Licencia), 0) + 1 FROM Licencia), %s, %s, %s, %s, %s, %s)
-            """
-            with connection.cursor() as cursor:
-                cursor.execute(query, [tipo, estado, fecha_inicio, fecha_fin, id_empleado, id_supervisor])
-
-            messages.success(request, 'La solicitud de licencia ha sido enviada correctamente.')
-            return redirect('/')
-        else:
-            messages.error(request, 'Hubo un error en la solicitud.')
-    else:
-        form = LicenciaPermisoForm()
-    return render(request, 'solicitar_licencia.html', {'form': form})
 
 def aprobar_rechazar_permisos(request):
     if request.method == 'POST':
