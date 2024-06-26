@@ -1,7 +1,6 @@
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Empleado, Departamento
 from django.http import JsonResponse
 from django.db import connection
 from .forms import LicenciaPermisoForm
@@ -10,14 +9,20 @@ from django.urls import reverse
 
 def MostrarFormulario(request):
     if 'show_form' in request.GET:
-        departamentos = Departamento.objects.all()
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT ID_Departamento, Nombre_Departamento FROM Departamento")
+            departamentos = cursor.fetchall()
         return render(request, 'Index.html', {'departamentos': departamentos})
     else:
         return redirect('/MenuPrincipal')
 
 def empleados_por_departamento(request, departamento_id):
-    empleados = Empleado.objects.filter(ID_Departamento=departamento_id).values('ID_Empleado', 'Nombre_Empleado', 'Apellido_Empleado')
+    query = "SELECT ID_Empleado, Nombre_Empleado, Apellido_Empleado FROM Empleado WHERE ID_Departamento = %s"
+    with connection.cursor() as cursor:
+        cursor.execute(query, [departamento_id])
+        empleados = cursor.fetchall()
     return JsonResponse(list(empleados), safe=False)
+
 
 def Insert(request):
     if request.method == "POST":
@@ -115,7 +120,9 @@ def generar_reporte_asistencia(request):
         if departamento_id and fecha_inicio and fecha_fin:
             return redirect(reverse('mostrar_reporte', args=[departamento_id, fecha_inicio, fecha_fin]))
     
-    departamentos = Departamento.objects.all()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT ID_Departamento, Nombre_Departamento FROM Departamento")
+        departamentos = cursor.fetchall()
     return render(request, 'Generar_reporte_asistencia.html', {'departamentos': departamentos})
 
 def mostrar_reporte(request, departamento_id, fecha_inicio, fecha_fin):
